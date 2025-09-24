@@ -20,7 +20,7 @@
 </head>
 <body>
   <table>
-    <tbody>
+    <tbody id="tbl">
       <tr>
         <td></td>
         <td></td>
@@ -150,29 +150,34 @@
   <audio id="boom" src="350975__cabled_mess__boom_c_02.wav"></audio>
   <script>
     let clickCount = 0;
-    const clickSound = document.getElementById('click')
-    const boomSound = document.getElementById('boom')
-    let lastSound = clickSound;
+  const clickSound = document.getElementById('click')
+  const boomSound = document.getElementById('boom')
+  let lastSound = clickSound;
 
-    // TODO: 1 - make it such that if any table cell is clicked, the onClick function below is executed
+  const tb = document.querySelector('#tbl');
 
-    function onClick(ev) {
-      lastSound.pause()
-      lastSound.currentTime = 0;
-      clickCount++
-      if (clickCount % 3 == 0) {
-        // boom
-        boomSound.play();
-        lastSound = boomSound
-      } else {
-        clickSound.play();
-        lastSound = clickSound
-      }
+  function onClick(ev) {
+    // Make sure we only react to clicks on <td>
 
-      console.log(`ev in onClick ${ev}`)
-      // TODO: 2 - REMOVE THE TABLE CELL THAT WAS CLICKED
-
+    lastSound.pause();
+    lastSound.currentTime = 0;
+    clickCount++;
+    if (clickCount % 3 === 0) {
+      boomSound.play();
+      lastSound = boomSound;
+    } else {
+      clickSound.play();
+      lastSound = clickSound;
     }
+
+    // Get row and column index
+    // Remove the clicked cell
+    ev.target.textContent = "";
+    ev.target.style.backgroundColor = "#450084";
+    ev.target.style.borderColor = "#450084";
+  }
+
+  tb.addEventListener('click', onClick);
   </script>
 </body>
 </html>
