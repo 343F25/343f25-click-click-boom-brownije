@@ -16,9 +16,14 @@
       background-color: wheat;
       border: 0.25rem solid #8EE4D7 ;
     }
+
+    .odd td {
+      background-color: #333333;
+    }
   </style>
 </head>
 <body>
+  <h1></h1>
   <table>
     <tbody id="tbl">
       <tr>
@@ -155,9 +160,11 @@
   let lastSound = clickSound;
 
   const tb = document.querySelector('#tbl');
+  const head = document.querySelector("h1");
+
+
 
   function onClick(ev) {
-    // Make sure we only react to clicks on <td>
 
     lastSound.pause();
     lastSound.currentTime = 0;
@@ -165,9 +172,11 @@
     if (clickCount % 3 === 0) {
       boomSound.play();
       lastSound = boomSound;
+      head.textContent = "BOOM";
     } else {
       clickSound.play();
       lastSound = clickSound;
+      head.textContent = "";
     }
 
     // Get row and column index
@@ -175,6 +184,20 @@
     ev.target.textContent = "";
     ev.target.style.backgroundColor = "#450084";
     ev.target.style.borderColor = "#450084";
+
+    const row = ev.target.parentElement;
+    let remainder = 10;
+    row.querySelectorAll("td").array.forEach(td => {
+      if (td.style.backgroundColor != "#450084") {
+        remaining--;
+      }
+    });
+
+    if (remainder % 2 == 1) {
+      row.classList.add("odd");
+    } else {
+      row.classList.remove("odd");
+    }
   }
 
   tb.addEventListener('click', onClick);
